@@ -1,3 +1,5 @@
+"use strict"
+
 $(function () {
     $('#message-offer-popup').fadeOut(1);
     var auth = require('./firebase.js')['auth'];
@@ -75,7 +77,7 @@ $(function () {
         $('#message-send-button').attr('chatid', chatid)
 
         // toggling clicked/selected div colors
-        if($(this).closest('div').hasClass('active')) {
+        if ($(this).closest('div').hasClass('active')) {
             return false;
         }
 
@@ -142,7 +144,6 @@ $(function () {
 
     var loadSettings = function () {
         getUserInfo(uid, loadUserInfo);
-        updateNavbarName();
     };
 
     var loadProfilePicture = function () {
@@ -159,7 +160,7 @@ $(function () {
         hub.val(userInfo.userHub);
         loadProfilePicture();
         $('.my-profile-username').text(firebaseUsername);
-        for (preference in userInfo.paymentPreferences) {
+        for (let preference in userInfo.paymentPreferences) {
             $("select[id$='profile-payment-preference'] option[value=" + userInfo.paymentPreferences[preference] + "]").attr("selected", true);
         }
 
@@ -177,7 +178,7 @@ $(function () {
 
     var updateSettings = function () {
         var paymentPreferences = [];
-        for (preference in paymentPreference.val()) {
+        for (let preference in paymentPreference.val()) {
             paymentPreferences.push(paymentPreference.val()[preference]);
         }
 
@@ -208,7 +209,6 @@ $(function () {
 
     auth.onAuthStateChanged(function(user) {
         if (user) {
-            user = auth.currentUser.email;
             uid = auth.currentUser.uid;
             if (window.location.pathname === '/profile/profile.html') {
                 $('select').material_select();
@@ -217,6 +217,10 @@ $(function () {
                 getFavoriteObjects(showFavoritedItems);
                 displayConversations(uid);
                 rerouteProfileHash();
+
+                if (!auth.currentUser.emailVerified) {
+                    Materialize.toast('Please check email to verify account', 3000, 'rounded');
+                }
             }
 
         } else if (!user && window.location.pathname === '/profile/profile.html'){
