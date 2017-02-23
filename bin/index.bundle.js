@@ -1674,29 +1674,11 @@
 	        }, 100);
 	    });
 
-	    let initializeTagTextExt = (element) => {
+	    let initializeTagTextExt = (element, tags) => {
 	        var itemTagRef = $(element);
 	        itemTagRef.textext({plugins : 'tags autocomplete'})
 	            .bind('getSuggestions', function(e, data){
-	                var list = [
-	                        'Table',
-	                        'Desk',
-	                        'Computer',
-	                        'Electronics',
-	                        'iPhone',
-	                        'Cell-Phone',
-	                        'Apple',
-	                        'Macbook',
-	                        'Chair',
-	                        'Leather',
-	                        'Clothing',
-	                        'Bedroom',
-	                        'Bathroom',
-	                        'Couch',
-	                        'Kitchen',
-	                        'Living-Room',
-	                        'Dinner-Table'
-	                    ],
+	                var list = tags,
 	                    textext = $(e.target).textext()[0],
 	                    query = (data ? data.query : '') || '';
 
@@ -1754,7 +1736,25 @@
 	    if (window.location.pathname === "/new-post/new-post.html") {
 	        checkIfVerified();
 	        initializeCampusTextExt();
-	        initializeTagTextExt('#itemTags');
+	        initializeTagTextExt('#itemTags', [
+	            'Table',
+	            'Desk',
+	            'Computer',
+	            'Electronics',
+	            'iPhone',
+	            'Cell-Phone',
+	            'Apple',
+	            'Macbook',
+	            'Chair',
+	            'Leather',
+	            'Clothing',
+	            'Bedroom',
+	            'Bathroom',
+	            'Couch',
+	            'Kitchen',
+	            'Living-Room',
+	            'Dinner-Table'
+	        ]);
 	    }
 
 
@@ -1884,8 +1884,7 @@
 	            })(i);
 	        }
 	    };
-
-
+	    
 
 	    auth.onAuthStateChanged(function(user) {
 	        if (user && $(favoriteTemplate).length > 0) {
@@ -1915,7 +1914,7 @@
 	                    getFavoriteObjects(showFavoritesInSidebar);
 	                }
 	                this.favorited = !this.favorited;
-	            });            
+	            });
 	        } else {
 	            $("#find-favorite-logged-in").css('display', 'none');
 	            $("#find-favorite-logged-out").css('display', 'block');
@@ -1932,8 +1931,8 @@
 	            var str = $('#find-results-template').text();
 	            var compiled = _.template(str);
 	            var imagePaths = [];
-	            var filteredItemList = {};      
-	            
+	            var filteredItemList = {};
+
 	            for (var item in itemList) {
 	                var currentItem = itemList[item];
 	                var itemID = currentItem['id'];
@@ -1976,7 +1975,7 @@
 	                        $("#" + imagePaths[x]).attr({src: url});
 	                    });
 	                })(i);
-	            }            
+	            }
 	        });
 	    };
 
@@ -2017,10 +2016,10 @@
 	            $("#find-keywords").val(key.join(" "));
 	            $('#find-tags').textext()[0].tags().addTags(tags);
 
-	            
+
 	            newSearch(getListings(), key, tags, hubs, priceRange);
 	        }
-	    }    
+	    }
 
 	    var slider = $("#search-slider");
 	    if (window.location.pathname === "/find/find.html") {
@@ -2095,7 +2094,7 @@
 
 	    $("#find-search-button").click(function () {
 	        let query = "key=";
-	        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);    
+	        let keywords = $("#find-keywords").val().toLowerCase().trim().split(/\s+/);
 	        let hubs = $("#find-hubs").val();
 	        let tags = $('#find-tags').textext()[0].tags()._formData;
 	        let priceRange = slider[0].noUiSlider.get();
@@ -2107,7 +2106,7 @@
 	        for (let i = 0; i < tags.length; i += 1) {
 	            tags[i] = tags[i].toLowerCase();
 	        }
-	        
+
 	        query += `${keywords}?hub=${hubs}?tags=${tags}?priceMin=${priceRange[0]}?priceMax=${priceRange[1]}`;
 	        location.hash = query;
 
@@ -2142,20 +2141,20 @@
 
 	        Promise.resolve(getItemsById([newMessageId]))
 	            .then(function(items) {
-	                
+
 	                for (let item in items) {
 	                    newMessageSellerId = items[item].uid;
 	                }
 
-	                return Promise.all([getUserInfoProper(newMessageSellerId), 
-	                    getUserInfoProper(auth.currentUser.uid)]); 
+	                return Promise.all([getUserInfoProper(newMessageSellerId),
+	                    getUserInfoProper(auth.currentUser.uid)]);
 	            })
 	            .then(function(results) {
 	                let currentUser = results[1];
 	                let otherUser = results[0]
 	                let myUsername = currentUser['username'];
 	                let otherUsername = otherUser['username'];
-	                initializeMessage(auth.currentUser.uid, newMessageSellerId, 
+	                initializeMessage(auth.currentUser.uid, newMessageSellerId,
 	                    newMessageId, newMessageImagePath, newMessageContent, otherUsername, myUsername);
 
 	                $('#message-popup-content').fadeOut(500);
@@ -2173,6 +2172,7 @@
 	    });
 
 	});
+
 
 /***/ },
 /* 10 */
@@ -2610,7 +2610,7 @@
 	            //     $('#password-unavailable').show();
 	            // }
 	        }
-	    });    
+	    });
 
 	    var checkHub = function () {
 	        return $('#sign-up-hub').val();
@@ -3127,11 +3127,36 @@
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict" 
+	"use strict"
+
 	$(function() {
 	    $('.slider').slider();
 	    $('ul.tabs').tabs();
 	    $('.parallax').parallax();
+
+	    let tagsList = [
+	                    'Table',
+	                    'Desk',
+	                    'Computer',
+	                    'Electronics',
+	                    'iPhone',
+	                    'Cell-Phone',
+	                    'Apple',
+	                    'Macbook',
+	                    'Chair',
+	                    'Leather',
+	                    'Clothing',
+	                    'Bedroom',
+	                    'Bathroom',
+	                    'Couch',
+	                    'Kitchen',
+	                    'Living-Room',
+	                    'Dinner-Table'
+	    ];
+
+	    let campusList = ['UCLA', 'Loyola Marymount University'];
+
+
 
 	    let initializeTagTextExt = __webpack_require__(8)['initializeTagTextExt']
 
@@ -3154,17 +3179,23 @@
 
 
 	    $("#search-button-main-page").on('click', () => {
-	        keysInput = $("#main-keys").val();
-	        hubInput = "todo";
-	        tagsInput = "todo";
-	        priceMaxInput = $("#main-price").val();
+	        let keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
+	        let hubInput = $('#main-campus').textext()[0].tags()._formData;
+	        let tagsInput = $('#main-tags').textext()[0].tags()._formData;
+	        let priceMaxInput = $("#main-price").val().length > 0 ?  $("#main-price").val() : "9999";
+
+	        for (let i = 0; i < tagsInput.length; i += 1) {
+	            tagsInput[i] = tagsInput[i].toLowerCase();
+	        }
 	        
-	        // window.location.href = `/find/find.html#key=\${keysInput}?hub=\${hubInput}?tags=\${tagsInput}?priceMin=1?priceMax=\${priceMaxInput}`;
+	        window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
 	    })
 
-	    if (window.location.pathname === "/index.html") {
+	    if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
+
 	        setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
-	        initializeTagTextExt('#main-tags')
+	        initializeTagTextExt('#main-tags', tagsList);
+	        initializeTagTextExt('#main-campus', campusList);
 
 	    }
 
