@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MarkIt</title>
+    <title>Vendyr</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../navbar/navbar.css"  media="screen,projection"/>
@@ -20,39 +20,45 @@
         <div class="row" id="detailed-item-card">
           <div class="col s12 ml12 l12">
             <div class="carousel carousel-slider center" data-indicators="true">
-              <p id="item-price">$150</p>
+              <p id="item-price">$</p>
               <div class="carousel-item red white-text" href="#one!">
-                <img src="../find/iphone-sample.jpg" />
+                <img id="image-1" src="" />
               </div>
               <div class="carousel-item amber white-text" href="#two!">
-                <p class="white-text">This is your second panel</p>
+                <img id="image-2" src="../find/iphone-sample.jpg" />
               </div>
               <div class="carousel-item green white-text" href="#three!">
-                <p class="white-text">This is your third panel</p>
+                <img id="image-3" src="../find/iphone-sample.jpg" />
               </div>
               <div class="carousel-item blue white-text" href="#four!">
-                <p class="white-text">This is your fourth panel</p>
+                <img id="image-4" src="../find/iphone-sample.jpg" />
               </div>
             </div>
           </div>
         </div>
         <div class="row" id="item-seller-info">
           <div class="col s12 m12 l9" id="item-info">
-            <h4 id="item-title">Excellent Condition iPhone 5 too LITTTT!!</h4>
-            <p id="item-description">dope a$$ iPhone 5, gotta sell fast hot hot hot!!! <br> slow processor, but looks so gooooood!!!</p>
-            <p id="item-tags">Tags: iPhone, CellPhone, Apple</p>
+            <h4 id="item-title">Title</h4>
+            <p id="item-description">Description</p>
+            <p id="item-tags">Tags:</p>
           </div>
           <div class="col s12 m12 l3" id="seller-info">
             <div class="chip">
-              <img src="../media/temp-profile.png" alt="Contact Person">
-              Jane Doe
+              <img id="seller-profile-picture" src="../media/ic_profile.png" alt="Contact Person">
+              <span id="seller-username">Seller</span>
             </div>
-            <img id="user-stars" src="http://www.clipartbest.com/cliparts/Kij/GMz/KijGMzriq.png">
+            <div class="user-stars">
+              <i id="star-1" class="material-icons star-1">star_border</i>
+              <i id="star-2" class="material-icons star-2">star_border</i>
+              <i id="star-3" class="material-icons star-3">star_border</i>
+              <i id="star-4" class="material-icons star-4">star_border</i>
+              <i id="star-5" class="material-icons star-5 tooltipped" data-position="bottom" data-delay="50" data-tooltip="">star_border</i>
+            </div>
             <br>
-            <a class="waves-effect waves-light btn-large blue">Send Message</a>
+            <a id="send-message-button" class="waves-effect waves-light btn-large blue">Send Message</a>
             <br>
             <br>
-            <a class="waves-effect waves-light btn-large green">Send Offer___</a>
+            <a id="send-offer-button" class="waves-effect waves-light btn-large green">Send Offer</a>
           </div>
         </div>
 

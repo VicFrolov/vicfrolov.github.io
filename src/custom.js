@@ -1,42 +1,38 @@
 "use strict"
 
-$(() => {
-    const getRecentItemsInHub = require('./firebase.js')['getRecentItemsInHub'];
-    const getImage = require('./firebase.js')["getImage"];
+$(function() {
+    const displayItemsInScroller = require('./sidescroller-view.js')['displayItemsInScroller'];
+    const campusList = ['UCLA', 'Loyola Marymount University'];
+    const initializeTagTextExt = require('./new-post.js')['initializeTagTextExt']
+    let blurbLeft = true;
+    const tagsList = [
+        'Table',
+        'Desk',
+        'Computer',
+        'Electronics',
+        'iPhone',
+        'Cell-Phone',
+        'Apple',
+        'Macbook',
+        'Chair',
+        'Leather',
+        'Clothing',
+        'Bedroom',
+        'Bathroom',
+        'Couch',
+        'Kitchen',
+        'Living-Room',
+        'Dinner-Table'
+    ];    
 
     $('.slider').slider();
     $('ul.tabs').tabs();
     $('.parallax').parallax();
 
-
-    const tagsList = [
-                    'Table',
-                    'Desk',
-                    'Computer',
-                    'Electronics',
-                    'iPhone',
-                    'Cell-Phone',
-                    'Apple',
-                    'Macbook',
-                    'Chair',
-                    'Leather',
-                    'Clothing',
-                    'Bedroom',
-                    'Bathroom',
-                    'Couch',
-                    'Kitchen',
-                    'Living-Room',
-                    'Dinner-Table'
-    ];
-
-    const campusList = ['UCLA', 'Loyola Marymount University'];
-    const initializeTagTextExt = require('./new-post.js')['initializeTagTextExt']
-    let blurbLeft = true;
-
     const fadingBlurbs = (blurbSide) => {
         if (blurbSide) {
             $(".main-info-left").fadeIn(2000).delay(5000).fadeOut('slow', function() {
-                blurbLeft = !blurbLeft;
+                // blurbLeft = !blurbLeft;
                 fadingBlurbs(blurbLeft);
             });
         } else {
@@ -46,29 +42,6 @@ $(() => {
             });
         }
     }
-
-    const mostRecentItemsFirstDiv = $('#first-div-results-holder');
-    const showMostRecentItemsFirstDiv = (items) => {
-        let imagePaths = []
-        const str = $('#first-div-results-template').text();
-        const compiled = _.template(str);
-
-        // mostRecentItemsFirstDiv.empty();
-        mostRecentItemsFirstDiv.prepend(compiled({items: items}));
-
-
-        for (let item in items) {
-            imagePaths.push(items[item]['id']);
-        }
-
-        for (let i = 0; i < imagePaths.length; i += 1) {
-            ((x)=> {
-                getImage(imagePaths[x] + '/imageOne', (url) => {
-                    $(`#${imagePaths[x]}`).attr({src: url});
-                });
-            })(i);
-        }
-    };
 
     $("#search-button-main-page").on('click', () => {
         const keysInput = $("#main-keys").val().toLowerCase().trim().split(/\s+/);
@@ -80,31 +53,33 @@ $(() => {
             tagsInput[i] = tagsInput[i].toLowerCase();
 
         }
-        
+
         window.location.href = `/find/find.html#key=${keysInput}?hub=${hubInput}?tags=${tagsInput}?priceMin=1?priceMax=${priceMaxInput}`;
     });
 
-    const scrollAmount = 420;
-
-    $('#scroll-left').on('click', () => {
-        const leftPos = $('.outside-scroll-container').scrollLeft();
-        $(".outside-scroll-container").animate({ scrollLeft:  leftPos - scrollAmount }, 600);
-    });
-
-    $('#scroll-right').on('click', () => {
-        const leftPos = $('.outside-scroll-container').scrollLeft();
-
-        if (leftPos <= scrollAmount * 2) {
-            $(".outside-scroll-container").animate({ scrollLeft:  leftPos + scrollAmount }, 600);
-        }
-    });    
+    $('.campus-button-coming-soon').hover(function() {
+        const $this = $(this);
+        const schoolName = $this.text();
+        $this.data('schoolName', schoolName);
+        $this.text("Coming Soon");
+    }, function () {
+        const $this = $(this);
+        $this.text($this.data('schoolName'));
+    })
 
     if (window.location.pathname === "/index.html" || window.location.pathname === "/") {
-
         setTimeout(() => { fadingBlurbs(blurbLeft) }, 1000);
         initializeTagTextExt('#main-tags', tagsList);
         initializeTagTextExt('#main-campus', campusList);
-        getRecentItemsInHub('Loyola Marymount University', showMostRecentItemsFirstDiv, 5);
 
+        $("#lmu-scroller-placeholder").load("../sidescroller-view/sidescroller-view.html", function () {
+            const $this = $(this);
+            displayItemsInScroller('Loyola Marymount University', 5, $this.find(".inside-scroll-container"));            
+        });
+
+        $("#ucla-scroller-placeholder").load("../sidescroller-view/sidescroller-view.html", function () {
+            const $this = $(this);
+            displayItemsInScroller('UCLA', 5, $this.find(".inside-scroll-container"));            
+        });
     }
 });
