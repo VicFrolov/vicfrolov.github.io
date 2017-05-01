@@ -2959,7 +2959,7 @@
 	        Promise.resolve(getUserSelling(uid)).then(function(items) {
 	            if (Object.keys(items).length >= 1) {
 	                let itemList = [];
-	                for (itemId in items) {
+	                for (let itemId in items) {
 	                    itemList.push(itemId)
 	                }
 

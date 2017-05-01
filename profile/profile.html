@@ -104,13 +104,11 @@
                   <% } else { %>
                     <a  class="waves-effect waves-light btn selling-sold-button">Mark as Sold</a>
                   <% } %>
-                  <div class="find-result-price">
-                    $ <%- item['price'] %>
-                  </div>
                   <div class="card-image waves-effect waves-block waves-light">
                     <img class="activator" src="" id=<%- item['id'] %>>
                   </div>
                   <div class="card-content">
+                      <span class="find-result-price">$<%- item['price'] %> - </span>
                     <span class="card-title activator grey-text text-darken-4"><%- item['title'] %><i class="material-icons right">more_vert</i></span>
                     <p>
                       <span class="view-item-detail">view item</span>
