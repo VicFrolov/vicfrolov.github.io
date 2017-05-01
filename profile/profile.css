@@ -61,12 +61,14 @@ main, body {
 
 .card .card-image {
     height: 200px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 
 .card {
     margin: 20px 10px 20px 10px;
     position: relative;
+    border-radius: 10px;
 }
 
 .card-contact {
@@ -290,17 +292,12 @@ main, body {
     position: relative;
 }
 
+/*TODO note that changing the price location from top left corner to inline
+resulted in the last card a row of cards to be slightly elongated when screen
+is narrowed.*/
+
 .find-result-price {
-    position: absolute;
-    left: 0%;
-    top: 0%;
-    color: black;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 5px;
-    font-size: 1.1rem;
-    z-index: 3;
-    color: #fff;
-    pointer-events: none;
+    color: #AED581;
 }
 
 .find-result-favorite {

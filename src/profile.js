@@ -69,9 +69,7 @@ $(function () {
             for (var i = 0; i < imagePaths.length; i += 1) {
                 (function (x) {
                     getImage(imagePaths[x] + '/imageOne', function(url) {
-                        console.log('profile');
-                        console.log(url);
-                        tagToAdd = "img.activator:eq(" + x  + " )";
+                        let tagToAdd = "img.activator:eq(" + x  + " )";
                         $(tagToAdd).attr({src: url});
                     });
                 })(i);
